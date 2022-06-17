@@ -21,8 +21,9 @@ for raw_file in raw_files:
     full_path = os.path.join(path, raw_file)
     file = open(full_path)
     json_data = json.load(file)
-    json_object = json.dumps(json_data['FhirResource'], indent=1)
+    json_array.append(json_data['FhirResource'])
+    json_object = json.dumps(json_array, indent=1)
     with open(full_path.replace('.json', '.ndjson'), "w") as outfile:
         outfile.write(json_object)
-
+    json_array = []
     print("Done loading file " + raw_file)
