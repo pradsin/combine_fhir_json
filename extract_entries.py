@@ -103,12 +103,15 @@ for raw_file in raw_files:
             jsonObject[resourceType].append(jsonString)
 
 for singleObject in jsonObject:
-    batchSize = 10000
+
     match singleObject:
+        # Document Reference Is Very Large File,
+        # 50 MB limit can reach in 1000 records
+        # therefore reducing the batch side to 100
         case "DocumentReference":
             batchSize = 100
         case default:
-            pass
+            batchSize = 10000
     # Split the dictionary if it has more than 10000 records
     splitRecords = chunks({i: i for i in jsonObject[singleObject]}, batchSize)
 
